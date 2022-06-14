@@ -1,5 +1,6 @@
 package com.example.tarea2appnuevo
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
@@ -34,12 +35,22 @@ class MainActivity : AppCompatActivity() {
             login()
         }
 
-        binding.register.setOnClickListener{
+        binding.register.setOnClickListener {
             register()
         }
+    }
 
+    private fun update (user: FirebaseUser?){
+        if (user != null){
+            val intent = Intent(this, Principal::class.java)
+            startActivity(intent)
+        }
+    }
 
-
+    public override fun onStart(){
+        super.onStart()
+        val user = auth.currentUser
+        update(user)
     }
 
 
@@ -50,12 +61,14 @@ class MainActivity : AppCompatActivity() {
 
         auth.signInWithEmailAndPassword(email, password).addOnCompleteListener(this){ task ->
             if (task.isSuccessful){
-                val user = auth.currentUser
                 Log.d("User Login", "Succes")
+                val user = auth.currentUser
+                update(user)
+
             }else{
                 Log.d("User Login", "Failed")
                 Toast.makeText(baseContext, "Fail", Toast.LENGTH_LONG).show()
-
+                update(null)
             }
 
         }
@@ -68,12 +81,13 @@ class MainActivity : AppCompatActivity() {
 
         auth.createUserWithEmailAndPassword(email, password).addOnCompleteListener(this){ task ->
             if (task.isSuccessful){
-                val user = auth.currentUser
                 Log.d("User Register", "Succes")
+                val user = auth.currentUser
+                update(user)
             }else{
                 Log.d("User Register", "Failed")
                 Toast.makeText(baseContext, "Fail", Toast.LENGTH_LONG).show()
-
+                update(null)
             }
 
         }

@@ -1,4 +1,4 @@
-package com.example.tarea2appnuevo.ui.home
+package com.example.tarea2appnuevo.ui.restaurante
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -7,11 +7,14 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
-import com.example.tarea2appnuevo.databinding.FragmentHomeBinding
+import androidx.navigation.dynamicfeatures.fragment.R
+import com.example.tarea2appnuevo.databinding.FragmentRestauranteBinding
+import com.example.tarea2appnuevo.viewmodel.RestauranteViewModel
 
-class HomeFragment : Fragment() {
+class RestauranteFragment : Fragment() {
 
-    private var _binding: FragmentHomeBinding? = null
+    private lateinit var RestauranteViewModel: RestauranteViewModel
+    private var _binding: FragmentRestauranteBinding? = null
 
     // This property is only valid between onCreateView and
     // onDestroyView.
@@ -22,14 +25,14 @@ class HomeFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        val homeViewModel =
-            ViewModelProvider(this).get(HomeViewModel::class.java)
+         RestauranteViewModel =
+            ViewModelProvider(this).get(RestauranteViewModel::class.java)
 
-        _binding = FragmentHomeBinding.inflate(inflater, container, false)
+        _binding = FragmentRestauranteBinding.inflate(inflater, container, false)
         val root: View = binding.root
 
         val textView: TextView = binding.textHome
-        homeViewModel.text.observe(viewLifecycleOwner) {
+        RestauranteViewModel.text.observe(viewLifecycleOwner) {
             textView.text = it
         }
         return root
